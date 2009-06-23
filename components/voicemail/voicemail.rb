@@ -1,10 +1,11 @@
 methods_for :dialplan do
   def handle_voicemail
-    if extension[0].chr == '+'
-      extension = extension.slice(1, extension.length)   
-    end
 
-    case extension.to_i
+    #Remove the preceding '+' from the Flowroute inbound calls
+    #Other carriers may not send the plus
+    callerid.gsub!("+", "")
+
+    case extension
     when 14155340223
       play_user_voicemails
     else

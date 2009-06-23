@@ -1,3 +1,3 @@
 adhearsion {
-  simon_game
+  handle_voicemail 
 }

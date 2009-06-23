@@ -26,7 +26,7 @@ Adhearsion::Configuration.configure do |config|
   
   # By default Asterisk is enabled with the default settings
   config.enable_asterisk
-  # config.asterisk.enable_ami :host => "127.0.0.1", :username => "admin", :password => "password", :events => true
+  #config.asterisk.enable_ami :host => "127.0.0.1", :username => "admin", :password => "password", :events => true
   
   # config.enable_drb
   
@@ -34,8 +34,9 @@ Adhearsion::Configuration.configure do |config|
   # the Rails app folder with which you're integrating. The second argument must be one of the 
   # the following: :development, :production, or :test.
   
-  # config.enable_rails :path => 'gui', :env => :development
-  
+  config.enable_rails :path => '/vol/data/status', :env => :development
+  #config.enable_rails :path => '/Users/zlu/projects/teresa', :env => :development
+
   # Note: You CANNOT do enable_rails and enable_database at the same time. When you enable Rails,
   # it will automatically connect to same database Rails does and load the Rails app's models.
   
@@ -47,4 +48,4 @@ Adhearsion::Configuration.configure do |config|
   #                        :host     => 'db.example.org'
 end
 
-Adhearsion::Initializer.start_from_init_file(__FILE__, File.dirname(__FILE__) + "/..")
+#Adhearsion::Initializer.start_from_init_file(__FILE__, File.dirname(__FILE__) + "/..")

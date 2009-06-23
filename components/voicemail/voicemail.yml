@@ -1,1 +1,2 @@
-# You can use this file for component-specific configuration.
+voicemail_directory: /vol/recordings/voicemails
+voicemail_format: gsm

@@ -1,6 +1,6 @@
 methods_for :dialplan do
   def handle_voicemail
-    if extension[0] == '+'
+    if extension[0].chr == '+'
       extension = extension.slice(1, extension.length)   
     end
 

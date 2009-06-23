@@ -1,7 +1,11 @@
 methods_for :dialplan do
   def handle_voicemail
-    case extension
-    when 4155340223
+    if extension[0] == '+'
+      extension = extension.slice(1, extension.length)   
+    end
+
+    case extension.to_i
+    when 14155340223
       play_user_voicemails
     else
       user = play_voicemail_greeting

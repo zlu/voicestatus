@@ -34,7 +34,7 @@ Adhearsion::Configuration.configure do |config|
   # the Rails app folder with which you're integrating. The second argument must be one of the 
   # the following: :development, :production, or :test.
   
-  config.enable_rails :path => '/vol/data/status', :env => :development
+  config.enable_rails :path => '/vol/data/status'
   #config.enable_rails :path => '/Users/zlu/projects/teresa', :env => :development
 
   # Note: You CANNOT do enable_rails and enable_database at the same time. When you enable Rails,

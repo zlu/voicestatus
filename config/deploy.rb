@@ -1,5 +1,5 @@
 set :application,         "voicestatus"
-set :repository,          "git://github.com/zlu/voicestatus.git"
+set :repository,          "git@github.com:zlu/voicestatus.git"
 set :user,                "teresa"
 set :password,            "orangesf"
 set :deploy_to,           "/vol/data/#{application}"
@@ -16,10 +16,8 @@ ssh_options[:paranoid] = false
 # can also specify options that can be used to single out a specific subset of boxes in a
 # particular role, like :primary => true.
 
-task :demo do
-  role :web, "174.129.215.197" # orange_ft_rd [mongrel] [mysql50-6-master]
-  role :app, "174.129.215.197", :passenger => true
-  role :db , "174.129.215.197", :primary => true
+task :production do
+  role :app, "174.129.215.197"
 
-  set :rails_env, "demo"
+  set :rails_env, "production"
 end

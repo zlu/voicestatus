@@ -3,19 +3,18 @@ methods_for :dialplan do
 
     #Remove the preceding '+' from the Flowroute inbound calls
     #Other carriers may not send the plus
-    callerid.gsub!("+", "")
+    #callerid.gsub!("+", "")
+    rdnis.gsub!("+", "")
 
     case extension
     when 14155340223
-      play_user_voicemails
-    else
       user = play_voicemail_greeting
       record_voicemail_message user
     end
   end
 
   def play_voicemail_greeting
-    user = User.find_by_caller_id callerid
+    user = User.find_by_caller_id rdnis
     ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
     play user.latest_status.recording.filename
     user
@@ -29,6 +28,7 @@ methods_for :dialplan do
     voicemail = user.voicemails.create!(:file_name => file_name)
   end
 
+  #Future method to retrieve voicemails by user id over the phone
   def play_user_voicemails
     result = input :play => "fr/vm-login", :timeout => 3.seconds, :accept_key => "#"
     if result != ''

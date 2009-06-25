@@ -1,5 +1,6 @@
 methods_for :global do
   def generate_tts_file(text_status)
+    text_status = sprintf("%p", text_status)
     filename = '/tmp/' + new_guid
     system("echo #{text_status} | text2wave -o #{ filename + '.ulaw' } -otype ulaw")
     ahn_log.play_vm_greeting.debug filename

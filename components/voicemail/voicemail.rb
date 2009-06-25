@@ -1,3 +1,11 @@
+methods_for :global do
+  def generate_tts_file(text_status)
+    filename = '/tmp/' + new_guid
+    system("echo #{text_status} | text2wave -o #{ filename + '.ulaw' } -otype ulaw")
+    filename
+  end
+end
+
 methods_for :dialplan do
   def handle_voicemail
 
@@ -16,12 +24,19 @@ methods_for :dialplan do
   def play_voicemail_greeting
     user = User.find_by_caller_id rdnis
     ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
-    play user.latest_status.recording.filename
+    sleep 2
+    status = user.latest_status
+    if status.instance_of? VoiceStatus
+      play user.latest_status.recording.filename
+    else
+      play generate_tts_file(status.stat)
+    end
+
     user
   end
 
   def record_voicemail_message(user)
-    play 'beep'
+    play 'beep'                                                                                
     # TODO maybe add uuid to file name
     file_name = COMPONENTS.voicemail["voicemail_directory"] + "/#{user.id}_#{Time.now.to_i}"
     record file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"

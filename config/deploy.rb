@@ -20,4 +20,5 @@ task :production do
   role :app, "174.129.215.197"
 
   set :rails_env, "production"
+  run "ln -nfs /vol/data/voicestatus/shared/config/startup.rb #{latest_release}/config/"
 end

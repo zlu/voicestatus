@@ -2,6 +2,7 @@ methods_for :global do
   def generate_tts_file(text_status)
     filename = '/tmp/' + new_guid
     system("echo #{text_status} | text2wave -o #{ filename + '.ulaw' } -otype ulaw")
+    ahn_log.play_vm_greeting.debug filename
     filename
   end
 end
@@ -23,10 +24,10 @@ methods_for :dialplan do
 
   def play_voicemail_greeting
     user = User.find_by_caller_id rdnis
-    ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
     sleep 2
     status = user.latest_status
     if status.instance_of? VoiceStatus
+      ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
       play user.latest_status.recording.filename
     else
       play generate_tts_file(status.stat)

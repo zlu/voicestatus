@@ -29,9 +29,9 @@ methods_for :dialplan do
     end
   end
 
-  # It locates the user by caller_id and plays his voicemails
+  # It locates the user by callerid and plays his voicemails
   def play_user_voicemails
-    user = locate_user(caller_id)
+    user = locate_user(callerid)
     if user
       play_voicemails(user)
     else
@@ -52,7 +52,7 @@ methods_for :dialplan do
 
   # It locates the user based on the given phone number
   # @param [String] phone number of the user
-  # @return [User] the user located or nil.
+  # @return [User] the user located or nil.                                                    Â
   def locate_user(phone_number)
     User.find_by_phone_number(phone_number)
   end

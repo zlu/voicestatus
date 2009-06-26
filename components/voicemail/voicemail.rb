@@ -87,11 +87,10 @@ methods_for :dialplan do
       unless voicemail.deleted?
         play voicemail.file_name
         voicemail.user_read!
-        play 'beep'
-        play generate_tts_file('Playing next message')
-        sleep 'beep'
+        play generate_tts_file('Next Message')
       end
     end
+    play 'vm-nomore'
     hangup
   end
 end

@@ -22,22 +22,27 @@ VOICEMAIL = ComponentTester.new("voicemail", File.dirname(__FILE__) + "/../..")
 
 describe "Incoming calls" do
   before :each do
-    @caller_id = "4085059096"
+    @phone_number = "16502437867"
   end
 
   it "should identify the user associated with the caller ID" do
-    callee = User.find_by_caller_id(@caller_id)
+    callee = User.find_by_phone_number(@phone_number)
     callee.should_not be_nil
   end
 
   it "should locate the file uri for the latest vm greeting for the located user" do
-    callee = User.find_by_caller_id(@caller_id)
+    callee = User.find_by_phone_number(@phone_number)
     latest_status = callee.latest_status
     latest_status.should_not be_nil
     latest_status.class.name.should == VoiceStatus.new.class.name
     recording = latest_status.recording
     recording.should_not be_nil
-    fn = recording.filename
-    File.exists?(fn).should be_true
+    dir = Dir.open("/vol/recordings/greetings")
+    fnames = []
+    dir.each do |file_name|
+      fnames << file_name.split(".")[0]
+    end
+    fn = recording.filename.split("/").last  
+    fnames.compact.should include(fn)
   end
 end

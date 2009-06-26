@@ -83,11 +83,13 @@ methods_for :dialplan do
   # It plays the voicemails for the given user
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
-    user.voicemails.each do |voicemail|
+
+    user.voicemails.each_with_index do |voicemail, index|
       unless voicemail.deleted?
+        play generate_tts_file('Next Message') if index != 0
         play voicemail.file_name
         voicemail.user_read! if voicemail.unread?
-        play generate_tts_file('Next Message')
+        sleep 1
       end
     end
     play 'vm-nomore'

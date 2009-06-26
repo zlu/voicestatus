@@ -84,7 +84,7 @@ methods_for :dialplan do
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
     user.voicemails.each do |voicemail|
-      if voicemail.unread?
+      unless voicemail.deleted?
         play voicemail.file_name
         voicemail.user_read!
         play 'beep'

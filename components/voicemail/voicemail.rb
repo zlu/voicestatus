@@ -26,7 +26,6 @@ methods_for :dialplan do
           rdnis.to_s.gsub!("+", "")
           play_voicemail_greeting
         end
-        record_voicemail_message user
     end
   end
 

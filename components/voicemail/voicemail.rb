@@ -86,7 +86,7 @@ methods_for :dialplan do
     user.voicemails.each do |voicemail|
       unless voicemail.deleted?
         play voicemail.file_name
-        voicemail.user_read! unless voicemail.unread?
+        voicemail.user_read! if voicemail.unread?
         play generate_tts_file('Next Message')
       end
     end

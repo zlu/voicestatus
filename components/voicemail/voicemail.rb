@@ -87,6 +87,9 @@ methods_for :dialplan do
       if voicemail.unread?
         play voicemail.file_name
         voicemail.user_read!
+        play 'beep'
+        play generate_tts_file('Playing next message')
+        sleep 'beep'
       end
     end
     hangup

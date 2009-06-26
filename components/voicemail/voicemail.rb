@@ -16,7 +16,7 @@ methods_for :dialplan do
 
     # Remove the preceding '+' from the Flowroute inbound calls
     # Other carriers may not send the plus
-    callerid.to_s.gsub!("+", "")  
+    callerid.to_s.gsub!("+", "")
 
     case extension
       when 14155340223
@@ -86,7 +86,7 @@ methods_for :dialplan do
     user.voicemails.each do |voicemail|
       unless voicemail.deleted?
         play voicemail.file_name
-        voicemail.user_read!
+        voicemail.user_read! unless voicemail.unread?
         play generate_tts_file('Next Message')
       end
     end

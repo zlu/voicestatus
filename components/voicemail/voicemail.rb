@@ -64,8 +64,7 @@ methods_for :dialplan do
     status = user.latest_status
     if status.instance_of? VoiceStatus
       ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
-      #play user.latest_status.recording.filename
-      execute 'controlplayback', user.latest_status.recording.filename
+      play user.latest_status.recording.filename
     else
       play generate_tts_file(status.stat)
     end
@@ -87,7 +86,8 @@ methods_for :dialplan do
     user.voicemails.each_with_index do |voicemail, index|
       unless voicemail.deleted?
         play generate_tts_file('Next Message') if index != 0
-        play voicemail.file_name
+        execute 'controlplayback', voicemail.file_name
+        #play voicemail.file_name
         voicemail.user_read! if voicemail.unread?
         sleep 1 
       end

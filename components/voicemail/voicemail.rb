@@ -79,7 +79,7 @@ methods_for :dialplan do
     file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
     record file
     system_command = "chmod 644 " + file
-    execute "system", "\'#{system_command}\'"
+    execute "system", "\"#{system_command}\""
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
     voicemail = user.voicemails.create!(:file_name => file_name)
   end

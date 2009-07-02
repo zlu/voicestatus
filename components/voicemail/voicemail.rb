@@ -76,7 +76,10 @@ methods_for :dialplan do
     play 'beep'
     # TODO maybe add uuid to file name
     file_name = COMPONENTS.voicemail["voicemail_directory"] + "/#{user.id}_#{Time.now.to_i}"
-    record file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
+    file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
+    record file
+    File.chmod 0644, file
+    # we do not store file extension because asterisk is stupid and only looks for the file name to playback
     voicemail = user.voicemails.create!(:file_name => file_name)
   end
 

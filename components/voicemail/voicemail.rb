@@ -75,13 +75,14 @@ methods_for :dialplan do
   def record_voicemail_message(user)
     play 'beep'
     # TODO maybe add uuid to file name
-    file_name = COMPONENTS.voicemail["voicemail_directory"] + "/#{user.id}_#{Time.now.to_i}"
+    fn = "/#{user.id}_#{Time.now.to_i}"
+    file_name = COMPONENTS.voicemail["voicemail_directory"] + fn
     file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
     record file
     system_command = "/bin/chmod 644 " + file
     #execute "system", "\"#{system_command}\""
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
-    voicemail = user.voicemails.create!(:file_name => file_name)
+    voicemail = user.voicemails.create!(:file_name => fn)
   end
 
   # It plays the voicemails for the given user

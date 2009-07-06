@@ -4,11 +4,11 @@ set :user,                "teresa"
 set :password,            "orangesf"
 set :deploy_to,           "/vol/data/#{application}"
 set :scm,                 :git
-set :use_sudo,            false
+set :use_sudo,            true
 
 # comment out if it gives you trouble. newest net/ssh needs this set.
 ssh_options[:paranoid] = false
-
+             1
 # =================================================================================================
 # ROLES
 # =================================================================================================
@@ -17,11 +17,8 @@ ssh_options[:paranoid] = false
 # can also specify options that can be used to single out a specific subset of boxes in a
 # particular role, like :primary => true.
 
-task :production do
-  role :app, "174.129.215.197"
-
-  set :rails_env, "production"
-end
+role :app, "174.129.215.197"
+set :rails_env, "production"
 
 namespace :deploy do
 
@@ -32,8 +29,8 @@ namespace :deploy do
   end
 
   task :restart, :roles => :app do
-    run "#{deploy_to}/shared/system/stop"
-    run "#{deploy_to}/shared/system/start"
+    sudo "monit stop adhearsion"
+    sudo "monit start adhearsion"
   end
 
 end

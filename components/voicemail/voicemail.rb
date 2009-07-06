@@ -75,7 +75,7 @@ methods_for :dialplan do
   def record_voicemail_message(user)
     play 'beep'
     # TODO maybe add uuid to file name
-    fn = "/#{user.id}_#{Time.now.to_i}"
+    fn = "#{user.id}_#{Time.now.to_i}"
     file_name = COMPONENTS.voicemail["voicemail_directory"] + fn
     file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
     record file
@@ -85,13 +85,14 @@ methods_for :dialplan do
     voicemail = user.voicemails.create!(:file_name => fn, :caller_id => callerid)
   end
 
-  # It plays the voicemails for the given user
+  # It plays the voicemails for the given user when they call in via the PSTN (aka - Flowroute)
+  # from their Android mobile phone
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
     user.voicemails.each_with_index do |voicemail, index|
       unless voicemail.deleted?
         play generate_tts_file('Next Message') if index != 0
-        execute 'controlplayback', voicemail.file_name
+        execute 'controlplayback', COMPONENTS.voicemail["voicemail_directory"] + voicemail.file_name
         #play voicemail.file_name
         voicemail.user_read! if voicemail.unread?
         sleep 1 

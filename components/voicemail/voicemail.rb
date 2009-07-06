@@ -82,7 +82,7 @@ methods_for :dialplan do
     system_command = "/bin/chmod 644 " + file
     #execute "system", "\"#{system_command}\""
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
-    voicemail = user.voicemails.create!(:file_name => fn)
+    voicemail = user.voicemails.create!(:file_name => fn, :caller_id => callerid)
   end
 
   # It plays the voicemails for the given user

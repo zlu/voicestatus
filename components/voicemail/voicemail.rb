@@ -64,7 +64,7 @@ methods_for :dialplan do
     status = user.latest_status
     if status.instance_of? VoiceStatus
       ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
-      play user.latest_status.recording.filename
+      play COMPONENTS.voicemail["greetings_directory"] + user.latest_status.recording.filename
     else
       play generate_tts_file(status.stat)
     end

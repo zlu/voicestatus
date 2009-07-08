@@ -1,2 +1,3 @@
+greetings_directory: /vol/recordings/greetings/
 voicemail_directory: /vol/recordings/voicemails/
 voicemail_format: wav

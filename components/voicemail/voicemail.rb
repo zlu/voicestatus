@@ -4,6 +4,7 @@ methods_for :global do
   # @return [String] the file_name of the audio file
   def generate_tts_file(text_status)
     text_status = sprintf("%p", text_status)
+    ahn_log.play_vm_greeting.debug text_status
     file_name = '/tmp/' + new_guid
     system("echo \"#{text_status}\" | text2wave -o #{ file_name + '.ulaw' } -otype ulaw")
     ahn_log.play_vm_greeting.debug file_name

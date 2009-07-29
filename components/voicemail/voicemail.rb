@@ -6,7 +6,7 @@ methods_for :global do
     text_status = sprintf("%p", text_status)
     ahn_log.play_vm_greeting.debug text_status
     file_name = '/tmp/' + new_guid
-    system("echo \"#{text_status}\" | text2wave -o #{ file_name + '.ulaw' } -otype ulaw")
+    system("echo #{text_status} | text2wave -o #{ file_name + '.ulaw' } -otype ulaw")
     ahn_log.play_vm_greeting.debug file_name
     file_name
   end

@@ -13,7 +13,7 @@ methods_for :global do
       mon = t.strftime("%B")
       day = t.strftime("%d")
       year = t.strftime("%Y")
-      text_status2 = text_status.sub(dt, dow +  " " + mon + " " + day + " " + year)
+      text_status2.sub!(dt, dow +  " " + mon + " " + day + " " + year)
     end
     ahn_log.play_vm_greeting.debug text_status2
     file_name = '/tmp/' + new_guid

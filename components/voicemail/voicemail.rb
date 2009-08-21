@@ -6,14 +6,11 @@ methods_for :global do
     text_status = sprintf("%p", text_status)
     ahn_log.play_vm_greeting.debug text_status
     date_pattern = %r{\d{4}-\d{1,2}-\d{1,2}}
-    text_status2 = text_status
+    text_status2 = text_status.clone
     text_status.scan(date_pattern) do |dt|
       t = Time.parse(dt)
-      dow = t.strftime("%A")
-      mon = t.strftime("%B")
-      day = t.strftime("%d")
-      year = t.strftime("%Y")
-      text_status2.sub!(dt, dow +  " " + mon + " " + day + " " + year)
+      ct = t.strftime("%A %B %d %Y")
+      text_status2 = text_status2.sub(dt, ct)
     end
     ahn_log.play_vm_greeting.debug text_status2
     file_name = '/tmp/' + new_guid

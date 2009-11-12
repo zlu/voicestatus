@@ -103,7 +103,7 @@ methods_for :dialplan do
         play generate_tts_file('Next Message') if index != 0
         execute 'controlplayback', COMPONENTS.voicemail["voicemail_directory"] + voicemail.file_name
         voicemail.user_read! if voicemail.unread?
-        sleep 1 
+        sleep 2 
       end
     end
     play 'vm-nomore'

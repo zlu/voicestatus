@@ -98,6 +98,12 @@ methods_for :dialplan do
   # from their Android mobile phone
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
+    user.latest_status.replies.each_with_index do |tr, index|
+      play generate_tts_file('Next Message') if index != 0
+      play generate_tts_file(tr.text)
+      sleep 2
+    end
+
     user.voicemails.each_with_index do |voicemail, index|
       unless voicemail.deleted?
         play generate_tts_file('Next Message') if index != 0

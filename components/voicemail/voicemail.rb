@@ -40,6 +40,7 @@ methods_for :dialplan do
     end
   end
 
+  
   # It locates the user by callerid and plays his voicemails
   def play_user_voicemails
     user = locate_user(callerid)

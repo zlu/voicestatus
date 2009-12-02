@@ -73,7 +73,9 @@ methods_for :dialplan do
   def play_greeting(user)
     sleep 2
     status = user.latest_status
-    if status.instance_of? VoiceStatus
+    if status.nil?
+      play generate_tts_file("Please leave me a voice mail and have a nice day")
+    elsif status.instance_of? VoiceStatus
       ahn_log.play_vm_greeting.debug user.latest_status.recording.filename
       play COMPONENTS.voicemail["greetings_directory"] + user.latest_status.recording.filename
     else

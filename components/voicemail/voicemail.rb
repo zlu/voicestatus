@@ -93,8 +93,9 @@ methods_for :dialplan do
     file_name = COMPONENTS.voicemail["voicemail_directory"] + fn
     file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
     record file
+    status_id = user.latest_status && user.latest_status.id
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
-    voicemail = user.voicemails.create!(:file_name => fn, :caller_id => callerid)
+    voicemail = user.voicemails.create!(:file_name => fn, :caller_id => callerid, :status_id => status_id)
   end
 
   # It plays the voicemails for the given user when they call in via the PSTN (aka - Flowroute)

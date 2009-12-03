@@ -40,7 +40,7 @@ methods_for :dialplan do
     end
   end
 
-  
+
   # It locates the user by callerid and plays his voicemails
   def play_user_voicemails
     user = locate_user(callerid)
@@ -88,14 +88,23 @@ methods_for :dialplan do
   # @param [User] the user to leave voicemail messages for
   def record_voicemail_message(user)
     play 'beep'
+    ahn_log.record_voicemail.debug "playing beep, ready to record voicemail"
+
     # TODO maybe add uuid to file name
     fn = "#{user.id}_#{Time.now.to_i}"
     file_name = COMPONENTS.voicemail["voicemail_directory"] + fn
     file = file_name + ".#{COMPONENTS.voicemail["voicemail_format"]}"
     record file
+    ahn_log.record_voicemail.debug "recording voicemail: " + file
     status_id = user.latest_status && user.latest_status.id
+    ahn_log.record_voicemail.debug "status_id: " + statis_od
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
-    voicemail = user.voicemails.create!(:file_name => fn, :caller_id => callerid, :status_id => status_id)
+    voicemail = user.voicemails.build(:file_name => fn, :caller_id => callerid, :status_id => status_id)
+    if voicemail.save
+      ahn_log.reecord_voicemail_message "Successfully saved voicemail for user: " + user.id
+    else
+      ahn_log.reecord_voicemail_message "Error saving voicemail for user: " + user.id
+    end
   end
 
   # It plays the voicemails for the given user when they call in via the PSTN (aka - Flowroute)

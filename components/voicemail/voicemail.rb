@@ -97,13 +97,13 @@ methods_for :dialplan do
     record file
     ahn_log.record_voicemail.debug "recording voicemail: " + file
     status_id = user.latest_status && user.latest_status.id
-    ahn_log.record_voicemail.debug "status_id: " + status_id
+    ahn_log.record_voicemail.debug "status_id: " + status_id.to_s
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
     voicemail = user.voicemails.build(:file_name => fn, :caller_id => callerid, :status_id => status_id)
     if voicemail.save
-      ahn_log.reecord_voicemail_message "Successfully saved voicemail for user: " + user.id
+      ahn_log.reecord_voicemail_message "Successfully saved voicemail for user: " + user.id.to_s
     else
-      ahn_log.reecord_voicemail_message "Error saving voicemail for user: " + user.id
+      ahn_log.reecord_voicemail_message "Error saving voicemail for user: " + user.id.to_s
     end
   end
 

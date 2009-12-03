@@ -87,8 +87,8 @@ methods_for :dialplan do
   # It records voicemail message for the given user
   # @param [User] the user to leave voicemail messages for
   def record_voicemail_message(user)
-    play 'beep'
     ahn_log.record_voicemail.debug "playing beep, ready to record voicemail"
+    play 'beep'
 
     # TODO maybe add uuid to file name
     fn = "#{user.id}_#{Time.now.to_i}"
@@ -97,7 +97,7 @@ methods_for :dialplan do
     record file
     ahn_log.record_voicemail.debug "recording voicemail: " + file
     status_id = user.latest_status && user.latest_status.id
-    ahn_log.record_voicemail.debug "status_id: " + statis_od
+    ahn_log.record_voicemail.debug "status_id: " + status_id
     # we do not store file extension because asterisk is stupid and only looks for the file name to playback
     voicemail = user.voicemails.build(:file_name => fn, :caller_id => callerid, :status_id => status_id)
     if voicemail.save

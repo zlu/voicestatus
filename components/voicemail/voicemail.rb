@@ -111,10 +111,20 @@ methods_for :dialplan do
   # from their Android mobile phone
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
-    user.latest_status.replies.each_with_index do |tr, index|
-      play generate_tts_file('Next Message') if index != 0
-      play generate_tts_file(tr.text)
-      sleep 2
+    latest_status = user.latest_status
+    if latest_status
+      replies = latest_status.replies
+      if replies
+        user.latest_status.replies.each_with_index do |tr, index|
+          play generate_tts_file('Next Message') if index != 0
+          play generate_tts_file(tr.text)
+          sleep 2
+        end
+      else
+        play 'vm-no'
+      end
+    else
+      play 'vm-no'
     end
 
     user.voicemails.each_with_index do |voicemail, index|
@@ -122,7 +132,7 @@ methods_for :dialplan do
         play generate_tts_file('Next Message') if index != 0
         execute 'controlplayback', COMPONENTS.voicemail["voicemail_directory"] + voicemail.file_name
         voicemail.user_read! if voicemail.unread?
-        sleep 2 
+        sleep 2
       end
     end
     play 'vm-nomore'

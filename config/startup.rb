@@ -34,7 +34,7 @@ Adhearsion::Configuration.configure do |config|
   # the Rails app folder with which you're integrating. The second argument must be one of the 
   # the following: :development, :production, or :test.
   
-  config.enable_rails :path => '/vol/data/status'
+#  config.enable_rails :path => '/vol/data/status'
   #config.enable_rails :path => '/Users/zlu/projects/teresa', :env => :development
 
   # Note: You CANNOT do enable_rails and enable_database at the same time. When you enable Rails,
@@ -46,6 +46,11 @@ Adhearsion::Configuration.configure do |config|
   #                        :username => 'joe', 
   #                        :password => 'secret',
   #                        :host     => 'db.example.org'
+  config.enable_database :adapter => 'mysql',
+                         :username => 'root',
+                         :password => '',
+                         :host => '127.0.0.1',
+                         :database => 'teresa_production'
 end
 
 #Adhearsion::Initializer.start_from_init_file(__FILE__, File.dirname(__FILE__) + "/..")

@@ -78,7 +78,7 @@ methods_for :dialplan do
   # @param [User] user whose voicemail greeting will be played
   def play_greeting(user)
     begin
-    sleep 2
+    sleep 1
     status = user.latest_status
     if status.nil?
       play generate_tts_file("Please leave me a voice mail and have a nice day")

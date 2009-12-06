@@ -16,7 +16,12 @@ methods_for :global do
     file_name = '/tmp/' + new_guid
     cmd = "echo #{text_status2} | text2wave -o #{ file_name + '.ulaw' } -otype ulaw"
     ahn_log.play_vm_greeting.debug cmd
+    begin
     system(cmd)
+    rescue Error => err
+      ahn_log.error err
+    end
+
     ahn_log.play_vm_greeting.debug file_name
     file_name
   end

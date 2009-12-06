@@ -72,6 +72,7 @@ methods_for :dialplan do
   # It plays user's voicemail greeting status as a recorded file or by Text to Speech (TTS)
   # @param [User] user whose voicemail greeting will be played
   def play_greeting(user)
+    begin
     sleep 2
     status = user.latest_status
     if status.nil?
@@ -82,6 +83,10 @@ methods_for :dialplan do
     else
       play generate_tts_file(status.stat)
     end
+    rescue => err
+      ahn_log.error err
+    end
+
   end
 
   # It records voicemail message for the given user
@@ -111,6 +116,7 @@ methods_for :dialplan do
   # from their Android mobile phone
   # @param [User] the user whose voicemails should be played back
   def play_voicemails(user)
+    begin
     latest_status = user.latest_status
     if latest_status
       replies = latest_status.replies
@@ -137,5 +143,8 @@ methods_for :dialplan do
     end
     play 'vm-nomore'
     hangup
+    rescue => err
+      ahn_log.error err
+    end
   end
 end
